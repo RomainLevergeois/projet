@@ -24,7 +24,7 @@
       		</div>
 			<div class="row">
 				<p>
-                <form action="index2.php" method="post">
+                <form action="index.php" method="post">
                     <select name="id_table" id="yo">
                         <option value=" " selected>--Choisissez une table--</option>
                         <option value="visiteurs">Visiteurs</option>
@@ -195,9 +195,9 @@
             				echo '<thead>';
            					echo '<tr>';
            					echo '<th>Identifiant Expo</th>';
-           					echo '<th>Theme</th>';
+           					echo '<th>Thème</th>';
            					echo '<th>Date expo</th>';
-         					echo '<th>Cout expo</th>';
+         					echo '<th>Côut expo</th>';
                				echo '</tr>';
 	              			echo '</thead>';
 	              			echo '<tbody>';

@@ -19,7 +19,7 @@
 		}
 		
 		if ( null==$table ) {
-			header("Location: index2.php");
+			header("Location: index.php");
 		}elseif ($table == "visiteurs") {
 
 			$check1="checked";
@@ -91,7 +91,7 @@
 			 				echo("Error description: " . mysqli_error($base));
 						}
 						mysqli_close($base);
-						header("Location: index2.php?inter=$table");
+						header("Location: index.php?inter=$table");
 					}
 				}
 			
@@ -154,7 +154,7 @@
 					  echo '<div class="control-group ';echo !empty($tarif)?$tarif:'">';
 					    echo '<label class="control-label">Tarif</label>';
 					    echo '<div class="controls">';
-					      	echo "<input name=\"tarif\" type=\"number\" min=\"0\" max=\"100\" step=\"0.01\"placeholder=\"14\" value=\"";
+					      	echo "<input name=\"tarif\" type=\"number\" min=\"-0.01\" max=\"100.00\" step=\"0.01\"placeholder=\"14\" value=\"";
 					      	if (!empty($tarif)) {
 					      		echo "$tarif\"/> €";
 					      	} else {
@@ -168,7 +168,12 @@
 					  echo '<div class="control-group ';echo !empty($dates)?$dates:'">';
 					    echo '<label class="control-label">Date</label>';
 					    echo '<div class="controls">';
-					      	echo '<input name="ddd" type="date"/>';
+					      	echo "<input name=\"ddd\" type=\"date\" value=\"";
+					      	if (!empty($dates)) {
+					      		echo "$dates\"/>";
+					      	} else {
+					      		echo '"/>'; 
+					      	}
 					      	if (!empty($datesError)) {
 					      		echo '<span class="help-inline">'.$datesError.'</span>';
 					      	}
@@ -176,7 +181,7 @@
 					  echo '</div>';
 					  echo '<div class="form-actions">';
 						  echo '<button type="submit" class="btn btn-success">Créer</button>';
-						  echo '<a class="btn" href="index2.php?inter='.$table.'">Retour</a>';
+						  echo '<a class="btn" href="index.php?inter='.$table.'">Retour</a>';
 						echo '</div>';
 					echo '</form>';
 				echo '</div>';
@@ -238,7 +243,7 @@
 		 				echo("Error description: " . mysqli_error($base));
 					}
 					mysqli_close($base);
-					header("Location: index2.php?inter=$table");
+					header("Location: index.php?inter=$table");
 				}
 			}
 
@@ -323,7 +328,7 @@
 					  echo '</div>';
 					  echo '<div class="form-actions">';
 						  echo '<button type="submit" class="btn btn-success" >Créer</button>';
-						  echo '<a class="btn" href="index2.php?inter='.$table.'">Retour</a>';
+						  echo '<a class="btn" href="index.php?inter='.$table.'">Retour</a>';
 						echo '</div>';
 					echo '</form>';
 				echo '</div>';
@@ -384,7 +389,7 @@
 		 				echo("Error description: " . mysqli_error($base));
 					}
 					mysqli_close($base);
-					header("Location: index2.php?inter=$table");
+					header("Location: index.php?inter=$table");
 				}
 			}
 
@@ -469,7 +474,7 @@
 					  echo '</div>';
 					  echo '<div class="form-actions">';
 						  echo '<button type="submit" class="btn btn-success">Créer</button>';
-						  echo '<a class="btn" href="index2.php?inter='.$table.'">Back</a>';
+						  echo '<a class="btn" href="index.php?inter='.$table.'">Back</a>';
 						echo '</div>';
 					echo '</form>';
 				echo '</div>';
@@ -516,7 +521,7 @@
 		 				echo("Error description: " . mysqli_error($base));
 					}
 					mysqli_close($base);
-					header("Location: index2.php?inter=$table");
+					header("Location: index.php?inter=$table");
 				}
 			}
 
@@ -573,7 +578,7 @@
 					  echo '</div>';
 					  echo '<div class="form-actions">';
 						  echo '<button type="submit" class="btn btn-success">Créer</button>';
-						  echo '<a class="btn" href="index2.php?inter='.$table.'">Back</a>';
+						  echo '<a class="btn" href="index.php?inter='.$table.'">Back</a>';
 						echo '</div>';
 					echo '</form>';
 				echo '</div>';

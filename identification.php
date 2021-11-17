@@ -4,8 +4,7 @@
 <head>
     <title>Projet LGS: identification</title>
     <meta charset="utf-8">
-    <link   href="css/bootstrap.min.css" rel="stylesheet">
-    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="identification.css"/>
     <script language="javascript">
         function foncton() {
             if (document.getElementById('img').className=="icon-eye-open"){
@@ -61,7 +60,7 @@
                                             <input type="password" placeholder="Mot de passe" id="mdp" name="mdp2" />
                                         </td>
                                         <td>
-                                            <p><i class="icon-eye-open" id="img" onclick="foncton();" onmouseover="document.getElementById('img').innerHTML = 'Révéler le mot de passe'" onmouseout="document.getElementById('img').innerHTML = ''"></i></p>
+                                            <p><i class="icon-eye-open" id="img" onclick="foncton();"></i></p>
 
                                         </td>
                                     </tr>
@@ -78,7 +77,7 @@
                                     include_once("myparam.inc.php");
                                     if (!empty($_POST)){
                                         if ($_POST["id"]==MYUSER && $_POST["mdp2"]==MYPASS){
-                                            header('Location: index2.php');
+                                            header('Location: index.php');
                                             exit();
                                         }
                                         else{

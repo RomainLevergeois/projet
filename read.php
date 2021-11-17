@@ -9,7 +9,7 @@
 	}
 	
 	if ( null==$id || null==$table ) {
-		header("Location: index2.php");
+		header("Location: index.php");
 	}
 ?>
 
@@ -81,7 +81,7 @@
 							    echo '</div>';
 							  echo '</div>';				  
 							    echo '<div class="form-actions">';
-								  echo '<a class="btn" href="index2.php?inter='.$table.'">Retour</a>';
+								  echo '<a class="btn" href="index.php?inter='.$table.'">Retour</a>';
 							   echo '</div>';			 
 							echo '</div>';
 
@@ -149,7 +149,7 @@
 							    echo '</div>';
 							  echo '</div>';							  				  
 							    echo '<div class="form-actions">';
-								  echo '<a class="btn" href="index2.php?inter='.$table.'">Retour</a>';
+								  echo '<a class="btn" href="index.php?inter='.$table.'">Retour</a>';
 							   echo '</div>';			 
 							echo '</div>';
 
@@ -216,7 +216,7 @@
 								     	echo $data['prix_vente'].' €';
 								    echo '</label>';					  				  
 							    echo '<div class="form-actions">';
-								  echo '<a class="btn" href="index2.php?inter='.$table.'">Retour</a>';
+								  echo '<a class="btn" href="index.php?inter='.$table.'">Retour</a>';
 							   echo '</div>';			 
 							echo '</div>';
 
@@ -260,7 +260,7 @@
 							    echo '</div>';
 							  echo '</div>';
 							  echo '<div class="control-group">';
-							    echo '<label class="control-label">Cout total exposition :</label>';
+							    echo '<label class="control-label">Côut total exposition :</label>';
 							    echo '<div class="controls">';
 							      	echo '<label class="checkbox">';
 								     	echo $data['cout_expo'].' €';
@@ -269,7 +269,7 @@
 							  echo '</div>';
 				  
 							    echo '<div class="form-actions">';
-								  echo '<a class="btn" href="index2.php?inter='.$table.'">Retour</a>';
+								  echo '<a class="btn" href="index.php?inter='.$table.'">Retour</a>';
 							   echo '</div>';			 
 							echo '</div>';
 						}						
