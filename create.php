@@ -5,18 +5,6 @@
     <link   href="css/bootstrap.min.css" rel="stylesheet">
     <script src="js/bootstrap.min.js"></script>
     <script language="javascript">
-    	function fonction1() {
-    		document.getElementById('etu1').className="btn";
-    		document.getElementById('etu1').style="border: 2px solid #d84d47;padding: 7px 14px;font-size: 16px;cursor: pointer;border-color: #d84d47;color: #d84d47;";
-    		document.getElementById('etu2').className="btn btn-success";
-    		document.getElementById('etu2').style="padding: 7px 14px;font-size: 16px;cursor: pointer;";
-    	}
-    	function fonction2() {
-    		document.getElementById('etu1').className="btn btn-danger";
-    		document.getElementById('etu1').style="padding: 7px 14px;font-size: 16px;cursor: pointer;";
-    		document.getElementById('etu2').className="btn";
-    		document.getElementById('etu2').style="border: 2px solid #5bb65b;padding: 7px 14px;font-size: 16px;cursor: pointer;border-color: #5bb65b;color: #5bb65b;";
-    	}
     </script>
 </head>
 
@@ -34,70 +22,79 @@
 			header("Location: index2.php");
 		}elseif ($table == "visiteurs") {
 
-			if ( !empty($_POST)) {
-				// keep track validation errors
-				$id_expoError = null;
-				$ageError = null;
-				$etuError = null;
-				$tarifError = null;
-				$datesError = null;		
-				
-				// keep track post values
-				$id_expo = $_POST['id_expo'];
-				$age = $_POST['age'];
-				$tarif = $_POST['tarif'];
-				$dates = $_POST['ddd'];
+			$check1="checked";
+			$check2="";
+			$etu="non";
 
 
-				// validate input
-				$valid = true;
-			
-
-			
-				if (empty($id_expo)) {
-					$id_expoError = 'Entrer l\'identifiant de l\'exposition';
-					$valid = false;
-				}
-				
-				if (empty($age)) {
-					$ageError = 'Entrer l\'age du visiteur';
-					$valid = false;
-				}
-				
-				if (empty($etu1)) {
-					$etuError = 'Cocher la case si le visiteur est étudiant';
-					$valid = false;
-					$etu ='non';
-				} else {
-					$etu ='oui';
-
-				}
-
-				if (empty($tarif)) {
-					$tarifError = 'Entrer le tarif (0-100)';
-					$valid = false;
-				}
-
-				if (empty($dates)) {
-					$datesError = 'Entrer une date';
-					$valid = false;
-				} else if ( checkdate($dates[1], $dates[2], $dates[3]) ) {
-					$datesError = 'Please enter a valid Date';
-					$valid = false;						
-				}
-
-				// insert data
-				if ($valid) {
-					$base = mysqli_connect (MYHOST, MYUSER, MYPASS, DBNAME); 					   
-					$sql = 	"INSERT INTO `visiteurs` (`id_expo`, `age`, `etu`, `tarif`, `dates`) VALUES ('$id_expo', '$age', '$etu', '$tarif', '$dates')";
-					$result=mysqli_query ($base,$sql);
-					if(!$result){
-		 				echo("Error description: " . mysqli_error($base));
+				if ( !empty($_POST)) {
+					// keep track validation errors
+					$id_expoError = null;
+					$ageError = null;
+					$etuError = null;
+					$tarifError = null;
+					$datesError = null;		
+					
+					// keep track post values
+					$id_expo = $_POST['id_expo'];
+					$age = $_POST['age'];
+					$tarif = $_POST['tarif'];
+					$dates = $_POST['ddd'];
+					
+					if (!empty($_POST['etu'])) {
+						$etu = $_POST['etu'];
+						if ($_POST['etu']=='oui') {
+							$check1="";
+							$check2="checked";
+						}
 					}
-					mysqli_close($base);
-					header("Location: index2.php?inter=$table");
+
+					// validate input
+					$valid = true;
+				
+
+				
+					if (empty($id_expo)) {
+						$id_expoError = 'Entrer l\'identifiant de l\'exposition';
+						$valid = false;
+					}
+					
+					if (empty($age)) {
+						$ageError = 'Entrer l\'age du visiteur';
+						$valid = false;
+					}
+					
+					if (empty($etu)) {
+						$etuError = 'Entrer si vous êtes étudiant';
+						$valid = false;
+					}
+
+					if (empty($tarif)) {
+						$tarifError = 'Entrer le tarif (0-100)';
+						$valid = false;
+					}
+
+					if (empty($dates)) {
+						$datesError = 'Entrer une date';
+						$valid = false;
+					} else if ( checkdate($dates[1], $dates[2], $dates[3]) ) {
+						$datesError = 'Please enter a valid Date';
+						$valid = false;						
+					}
+
+					// insert data
+					if ($valid) {
+						$base = mysqli_connect (MYHOST, MYUSER, MYPASS, DBNAME); 					   
+						$sql = 	"INSERT INTO `visiteurs` (`id_expo`, `age`, `etu`, `tarif`, `dates`) VALUES ('$id_expo', '$age', '$etu', '$tarif', '$dates')";
+						$result=mysqli_query ($base,$sql);
+						if(!$result){
+			 				echo("Error description: " . mysqli_error($base));
+						}
+						mysqli_close($base);
+						header("Location: index2.php?inter=$table");
+					}
 				}
-			}
+			
 
 			echo '<div class="container">';
     
@@ -136,14 +133,22 @@
 					      	}
 					    echo '</div>';
 					  echo '</div>';
-					  echo '<div class="control-group ';echo !empty($etu)?$etu:'">';
+
+						
+
+				
+
+
+					  echo '<div class="control-group ';echo !empty($etu)?$etu:'">';;
 					    echo '<label class="control-label">Étudiant</label>';
 					    echo '<div class="controls" style="margin-left: 220px">';
-					    	  	echo '<button type="radio" class="btn btn-danger " style="padding: 7px 14px;font-size: 16px;cursor: pointer;" name="etu" id="etu1" onclick="fonction2();" checked>Non</button> ';
+					    		
+					    	  	echo '<input type="radio" class="btn btn-danger " style="padding: 7px 14px;font-size: 16px;cursor: pointer;" name="etu" id="etu1" value="non" '.$check1.'>Non';
 
-								echo '<button type="radio" class="btn" style="border: 2px solid #5bb65b;padding: 7px 14px;font-size: 16px;cursor: pointer;border-color: #5bb65b;color: #5bb65b;" name="etu" id="etu2" onclick="fonction1()">Oui</button>';
-
-					      	
+								echo '<input type="radio" class="btn" style="border: 2px solid #5bb65b;padding: 7px 14px;font-size: 16px;cursor: pointer;border-color: #5bb65b;color: #5bb65b;" name="etu" id="etu2" value="oui" '.$check2.'>Oui';
+								if (!empty($etuError)){
+					      		echo '<span class="help-inline">'.$etuError.'</span>';
+					      	}
 					    echo '</div>';
 					  echo '</div>';
 					  echo '<div class="control-group ';echo !empty($tarif)?$tarif:'">';
