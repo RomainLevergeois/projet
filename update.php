@@ -609,7 +609,8 @@
 			if ( !empty($_POST)) {
 				// keep track validation errors
 				$themeError = null;
-				$date_expoError = null;
+				$date_expodebutError = null;
+				$date_expofinError = null;				
 				$cout_expoError = null;	
 				
 				// keep track post values
@@ -623,7 +624,8 @@
 				$id_expo = $data['id_expo'];
 				mysqli_close($base);
 				$theme = $_POST['theme'];
-				$date_expo = $_POST['date_expo'];
+				$date_expodebut = $_POST['date_expodebut'];
+				$date_expofin = $_POST['date_expofin'];				
 				$cout_expo = $_POST['cout_expo'];
 				
 				// validate input
@@ -633,11 +635,19 @@
 					$valid = false;
 				}
 				
-				if (empty($date_expo)) {
-					$date_expoError = 'Entrer la date de l\'exposition';
+				if (empty($date_expodebut)) {
+					$date_expodebutError = 'Entrer la date de début de l\'exposition';
 					$valid = false;
-				}else if ( checkdate($date_expo[1], $date_expo[2], $date_expo[3]) ) {
-					$date_expoError = 'Entrer une date valide';
+				}else if ( checkdate($date_expodebut[1], $date_expodebut[2], $date_expodebut[3]) ) {
+					$date_expodebutError = 'Entrer une date valide';
+					$valid = false;						
+				}
+
+				if (empty($date_expofin)) {
+					$date_expofinError = 'Entrer la date de fin de l\'exposition';
+					$valid = false;
+				}else if ( checkdate($date_expofin[1], $date_expofin[2], $date_expofin[3]) ) {
+					$date_expofinError = 'Entrer une date valide';
 					$valid = false;						
 				}
 
@@ -649,7 +659,7 @@
 					// update data
 				if ($valid) {
 					$base = mysqli_connect (MYHOST, MYUSER, MYPASS, DBNAME); 					   
-				   	$sql = "UPDATE expositions SET `theme` = '$theme', `date_expo` = '$date_expo', `cout_expo` = '$cout_expo' WHERE `expositions`.`id_expo` = $id";
+				   	$sql = "UPDATE expositions SET `theme` = '$theme', `date_expodebut` = '$date_expodebut', `date_expofin` = '$date_expofin', `cout_expo` = '$cout_expo' WHERE `expositions`.`id_expo` = $id";
 					$result=mysqli_query ($base,$sql);
 					if(!$result){
 		 				echo("Error description: " . mysqli_error($base));
@@ -668,7 +678,8 @@
 			    $data=mysqli_fetch_array($result,MYSQLI_ASSOC);
 			    $id_expo = $data['id_expo'];
 				$theme = $data['theme'];
-				$date_expo = $data['date_expo'];
+				$date_expodebut = $data['date_expodebut'];
+				$date_expofin = $data['date_expofin'];
 				$cout_expo = $data['cout_expo'];					
 
 				mysqli_close($base);				
@@ -711,22 +722,36 @@
 					      	}
 					    echo '</div>';
 					  echo '</div>';
-					  echo '<div class="control-group ';echo !empty($date_expo)?$date_expo:'">';
-					    echo '<label class="control-label">Date de l\'exposition</label>';
+					  echo '<div class="control-group ';echo !empty($date_expodebut)?$date_expodebut:'">';
+					    echo '<label class="control-label">Date du debut de l\'exposition</label>';
 					    echo '<div class="controls">';
-					      	echo "<input name=\"date_expo\" type=\"date\" value=\"";
-					      	if (!empty($date_expo)) {
-					      		echo "$date_expo\"/>";
+					      	echo "<input name=\"date_expodebut\" type=\"date\" value=\"";
+					      	if (!empty($date_expodebut)) {
+					      		echo "$date_expodebut\"/>";
 					      	} else {
 					      		echo '"/>';
 					      	}
-					      	if (!empty($date_expoError)){
-					      		echo '<span class="help-inline">'.$date_expoError.'</span>';
+					      	if (!empty($date_expodebutError)){
+					      		echo '<span class="help-inline">'.$date_expodebutError.'</span>';
 					      	}
 					    echo '</div>';
 					  echo '</div>';
+					  echo '<div class="control-group ';echo !empty($date_expofin)?$date_expofin:'">';
+					    echo '<label class="control-label">Date de fin de l\'exposition</label>';
+					    echo '<div class="controls">';
+					      	echo "<input name=\"date_expofin\" type=\"date\" value=\"";
+					      	if (!empty($date_expofin)) {
+					      		echo "$date_expofin\"/>";
+					      	} else {
+					      		echo '"/>';
+					      	}
+					      	if (!empty($date_expofinError)){
+					      		echo '<span class="help-inline">'.$date_expofinError.'</span>';
+					      	}
+					    echo '</div>';
+					  echo '</div>';					  
 					  echo '<div class="control-group ';echo !empty($cout_expo)?$cout_expo:'">';
-					    echo '<label class="control-label">Cout total de l\'exposition</label>';
+					    echo '<label class="control-label">Cout total de l\'exposition (sans loc oeuvre)</label>';
 					    echo '<div class="controls">';
 					      	echo "<input name=\"cout_expo\" type=\"number\" min=\"0\" max=\"10000000\" step=\"0.01\" placeholder=\"0\" value=\"";
 					      	if (!empty($cout_expo)) {

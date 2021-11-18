@@ -255,12 +255,12 @@
 							    echo '<label class="control-label">Date exposition :</label>';
 							    echo '<div class="controls">';
 							      	echo '<label class="checkbox">';
-								     	echo substr($data['date_expo'], 8, 2).'/'.substr($data['date_expo'], 5, 2).'/'.substr($data['date_expo'], 0, 4);
+								     	echo 'Du '.substr($data['date_expodebut'], 8, 2).'/'.substr($data['date_expodebut'], 5, 2).'/'.substr($data['date_expodebut'], 0, 4).' au '.substr($data['date_expofin'], 8, 2).'/'.substr($data['date_expofin'], 5, 2).'/'.substr($data['date_expofin'], 0, 4);
 								    echo '</label>';
 							    echo '</div>';
 							  echo '</div>';
 							  echo '<div class="control-group">';
-							    echo '<label class="control-label">Côut total exposition :</label>';
+							    echo '<label class="control-label">Côut total exposition (sans loc oeuvre):</label>';
 							    echo '<div class="controls">';
 							      	echo '<label class="checkbox">';
 								     	echo $data['cout_expo'].' €';

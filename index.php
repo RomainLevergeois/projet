@@ -22,7 +22,7 @@
     				}
     			?>
       		</div>
-			<div class="row">
+			<div class="row" style="border-bottom: 2px solid black">
 				<p>
                 <form action="index.php" method="post">
                     <select name="id_table" id="yo">
@@ -31,11 +31,16 @@
                         <option value="oeuvres">Oeuvres</option>
                         <option value="souvenirs">Souvenirs</option>
                         <option value="expositions">Expositions</option>
+                        <option value="requetes">Requètes</option>                        
                     </select>
                		</br>
                     <input type="submit" value="Go" title="valider pour aller à la table sélectionnée" />
                 </p>
                 </form>
+            </div>
+        	</br>
+   			<div class="row" style="border-bottom-width: '3px';border-bottom-color: black">
+    
                 <?php
        
 					/* on vérifie que l'information "id_table" existe ET qu'elle n'est pas vide : */
@@ -197,7 +202,7 @@
            					echo '<th>Identifiant Expo</th>';
            					echo '<th>Thème</th>';
            					echo '<th>Date expo</th>';
-         					echo '<th>Côut expo</th>';
+         					echo '<th>Côut expo (sans loc oeuvre)</th>';
                				echo '</tr>';
 	              			echo '</thead>';
 	              			echo '<tbody>';
@@ -220,7 +225,7 @@
 					   				echo '<tr>';
 						   			echo '<td>'. $row['id_expo'] . '</td>';
 						   			echo '<td>'. $row['theme'] . '</td>';
-						   			echo '<td>'. substr($row['date_expo'], 8, 2).'/'.substr($row['date_expo'], 5, 2).'/'.substr($row['date_expo'], 0, 4). '</td>';
+						   			echo '<td>Du '. substr($row['date_expodebut'], 8, 2).'/'.substr($row['date_expodebut'], 5, 2).'/'.substr($row['date_expodebut'], 0, 4). ' au '. substr($row['date_expofin'], 8, 2).'/'.substr($row['date_expofin'], 5, 2).'/'.substr($row['date_expofin'], 0, 4). '</td>';
 						   			echo '<td>'. $row['cout_expo'] . ' € </td>';
 						  			echo '<td width=250>';
 						   			echo '<a class="btn" href="read.php?table=expositions&id='.$row['id_expo'].'">Lire</a>';
@@ -233,13 +238,15 @@
 								}
 							}
 							mysqli_close($base);
+     					}elseif($_POST['id_table']=="requetes"){
+
      					}
      				}		
 				?>
 				     </tbody>
 	          	</table>
 	          	<?php
-	          		if (!empty($_POST['id_table']) && $_POST['id_table']!=" ") {
+	          		if (!empty($_POST['id_table']) && $_POST['id_table']!=" " && $_POST['id_table']!="requetes" ) {
 	          			echo '<p><a href="create.php?table='.$_POST['id_table'].'" class="btn btn-success">Créer</a></p>';
 	          		}
 	          	?>
