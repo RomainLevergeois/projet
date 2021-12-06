@@ -191,18 +191,21 @@
 
 			if ( !empty($_POST)) {
 				// keep track validation errors
+
 				$typeError = null;
 				$titreError = null;
 				$artisteError = null;
 				$date_realError = null;
-				$prix_locError = null;		
+				$prix_locError = null;
+				$id_expoError = null;		
 				
 				// keep track post values
 				$type = $_POST['type'];
 				$titre = $_POST['titre'];
 				$artiste = $_POST['artiste'];
 				$date_real = $_POST['date_real'];
-				$prix_loc = $_POST['prix_loc'];								
+				$prix_loc = $_POST['prix_loc'];
+				$id_expo = $_POST['id_expo'];								
 				
 				// validate input
 				$valid = true;
@@ -233,14 +236,32 @@
 					$prix_locError = 'Entrer le prix de la location';
 					$valid = false;
 				}
+				if (empty($id_expo)) {
+					$id_expoError = 'Entrer l\'id de l\'exposition';
+					$valid = false;
+				}
 
 				// insert data
 				if ($valid) {
 					$base = mysqli_connect (MYHOST, MYUSER, MYPASS, DBNAME); 					   
-					$sql = 	"INSERT INTO `oeuvres` (`type`, `titre`, `artiste`, `date_real`, `prix_loc`) VALUES ('$type', '$titre', '$artiste', '$date_real', '$prix_loc')";
-					$result=mysqli_query ($base,$sql);
-					if(!$result){
-		 				echo("Error description: " . mysqli_error($base));
+					$sql1 = "INSERT INTO `oeuvres` (`type`, `titre`, `artiste`, `date_real`, `prix_loc`) VALUES ('$type', '$titre', '$artiste', '$date_real', '$prix_loc')";
+					$result1=mysqli_query ($base,$sql1);
+
+					$sql3 = "SELECT * FROM oeuvres where titre = '$titre'";
+					$result3=mysqli_query ($base,$sql3);
+					if(!$result3){
+			 				echo("Error3 description: " . mysqli_error($base));
+					}
+				    $data=mysqli_fetch_array($result3,MYSQLI_ASSOC);
+				    $id_oeuvre = $data['id_oeuvre'];
+
+					$sql2 = "INSERT INTO `participe` (`id_expo`, `id_oeuvre`) VALUES ('$id_expo', '$id_oeuvre')";
+					$result2=mysqli_query ($base,$sql2);					
+					if(!$result1){
+		 				echo("Error1 description: " . mysqli_error($base));
+					}
+					if(!$result2){
+		 				echo("Error2 description: " . mysqli_error($base));
 					}
 					mysqli_close($base);
 					header("Location: index.php?inter=$table");
@@ -326,6 +347,20 @@
 					      	}
 					    echo '</div>';
 					  echo '</div>';
+					  echo '<div class="control-group ';echo !empty($id_expo)?$id_expo:'">';
+					    echo '<label class="control-label">Participe à l\'exposition</label>';
+					    echo '<div class="controls">';
+					      	echo "<input name=\"id_expo\" type=\"number\" placeholder=\"1\" value=\"";
+					      	if (!empty($id_expo)) {
+					      		echo "$id_expo\"/>";
+					      	} else {
+					      		echo '"/>';
+					      	}
+					      	if (!empty($id_expoError)) {
+					      		echo '<span class="help-inline">'.$id_expoError.'</span>';
+					      	}
+					    echo '</div>';
+					  echo '</div>';					  
 					  echo '<div class="form-actions">';
 						  echo '<button type="submit" class="btn btn-success" >Créer</button>';
 						  echo '<a class="btn" href="index.php?inter='.$table.'">Retour</a>';

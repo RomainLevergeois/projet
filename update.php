@@ -239,17 +239,19 @@
 				$titreError = null;
 				$artisteError = null;
 				$date_realError = null;
-				$prix_locError = null;		
+				$prix_locError = null;
+				$id_expoError = null;		
 				
 				// keep track post values
 				$base = mysqli_connect (MYHOST, MYUSER, MYPASS, DBNAME); 					   
-				$sql = "SELECT * FROM oeuvres where id_oeuvre = $id";
+				$sql = "SELECT * FROM oeuvres NATURAL JOIN participe where id_oeuvre = $id";
 				$result=mysqli_query ($base,$sql);
 				if(!$result){
 			 		echo("Error description: " . mysqli_error($base));
 				}
 				$data=mysqli_fetch_array($result,MYSQLI_ASSOC);
 				$id_oeuvre = $data['id_oeuvre'];
+				$id_expo = $_POST['id_expo'];
 				mysqli_close($base);
 
 				$type = $_POST['type'];
@@ -262,6 +264,10 @@
 				$valid = true;
 				if (empty($type)) {
 					$typeError = 'Entrer le type';
+					$valid = false;
+				}
+				if (empty($id_expo)) {
+					$id_expoError = 'Entrer l\'identifiant de l\'exposition';
 					$valid = false;
 				}
 				
@@ -291,23 +297,29 @@
 					// update data
 					if ($valid) {
 						$base = mysqli_connect (MYHOST, MYUSER, MYPASS, DBNAME); 					   
-				    	$sql = "UPDATE oeuvres SET type = '$type', `titre` = '$titre', `artiste` = '$artiste', `date_real` = '$date_real', `prix_loc` = '$prix_loc' WHERE `oeuvres`.`id_oeuvre` = $id";
-						$result=mysqli_query ($base,$sql);
-						if(!$result){
-		 					echo("Error description: " . mysqli_error($base));
+				    	$sql1 = "UPDATE oeuvres SET type = '$type', `titre` = '$titre', `artiste` = '$artiste', `date_real` = '$date_real', `prix_loc` = '$prix_loc' WHERE `oeuvres`.`id_oeuvre` = $id";
+						$result1=mysqli_query ($base,$sql1);
+						if(!$result1){
+		 					echo("Error1 description: " . mysqli_error($base));
 					  	}
+				    	$sql2 = "UPDATE participe SET id_expo = '$id_expo' WHERE `id_oeuvre` = $id";
+						$result2=mysqli_query ($base,$sql2);
+						if(!$result2){
+		 					echo("Error2 description: " . mysqli_error($base));
+					  	}					  	
 						mysqli_close($base);	
 						header("Location: index.php?inter=$table");
 					}
-				} else {
+			} else {
 					$base = mysqli_connect (MYHOST, MYUSER, MYPASS, DBNAME); 					   
-				    $sql = "SELECT * FROM oeuvres where id_oeuvre = $id";
+				    $sql = "SELECT * FROM oeuvres NATURAL JOIN participe where id_oeuvre = $id";
 					$result=mysqli_query ($base,$sql);
 					if(!$result){
 			 				echo("Error description: " . mysqli_error($base));
 					}
 				    $data=mysqli_fetch_array($result,MYSQLI_ASSOC);
 				    $id_oeuvre = $data['id_oeuvre'];
+				    $id_expo = $data['id_expo'];
 					$type = $data['type'];
 					$titre = $data['titre'];
 					$artiste = $data['artiste'];					
@@ -315,7 +327,7 @@
 					$prix_loc = $data['prix_loc'];
 				
 					mysqli_close($base);				
-				}
+			}
 
 			echo '<div class="container">';
     
@@ -338,7 +350,21 @@
 					      	if (!empty($id_oeuvreError)){ 
 					      		echo '<span class="help-inline">'.$id_oeuvreError.'</span>';
 					      	}
-					    echo '</div>';		    			
+					    echo '</div>';
+
+					  echo '<div class="control-group '; echo !empty($id_expo)?'error':'">';
+					    echo '<label class="control-label">Participe à l\'exposition </label>';
+					    echo '<div class="controls">';
+					      	echo "<input name=\"id_expo\" type=\"text\" value=\"";
+					      	if (!empty($id_expo)) {
+					      		echo "$id_expo\"/>";
+					      	} else {
+					      		echo '"/>';
+					      	}
+					      	if (!empty($id_expoError)){ 
+					      		echo '<span class="help-inline">'.$id_expoError.'</span>';
+					      	}
+					    echo '</div>';					    		    			
 					  echo '<div class="control-group '; echo !empty($type)?'error':'">';
 					    echo '<label class="control-label">Type</label>';
 					    echo '<div class="controls">';
